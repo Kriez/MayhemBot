@@ -18,7 +18,6 @@ namespace MayhemBot.Models
             VoiceChannels = new VoiceChannelConfiguration(config.GetSection("VoiceChannels"));
         }
     }
-
     public class VoiceChannelConfiguration
     {
         public readonly ulong General;

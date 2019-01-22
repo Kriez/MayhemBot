@@ -1,7 +1,4 @@
 ﻿using System;
-
-//https://github.com/gngrninja/NinjaBotCore
-
 namespace PlexDiscordBot
 {
     class Program

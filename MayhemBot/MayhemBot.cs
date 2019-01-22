@@ -8,6 +8,7 @@ using PlexDiscordBot.Services;
 using System;
 using System.Threading.Tasks;
 
+
 namespace PlexDiscordBot
 {
     public class MayhemBot

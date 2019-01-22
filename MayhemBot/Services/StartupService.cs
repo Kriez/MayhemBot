@@ -20,7 +20,6 @@ namespace PlexDiscordBot.Services
             _discord = discord;
             _commands = commands;
         }
-
         public async Task StartAsync()
         {
             if (string.IsNullOrWhiteSpace(_config.Token))

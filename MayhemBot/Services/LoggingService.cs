@@ -11,7 +11,6 @@ namespace PlexDiscordBot.Services
     {
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
-
         private string _logDirectory { get; }
         private string _logFile;
 

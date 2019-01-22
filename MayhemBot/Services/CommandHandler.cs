@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using MayhemBot.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ namespace PlexDiscordBot.Services
 {
     public class CommandHandler
     {
-
         private CommandService _commands;
         private DiscordSocketClient _client;
         private readonly IServiceProvider _provider;
