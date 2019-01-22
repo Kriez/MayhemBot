@@ -1,5 +1,5 @@
 ﻿using System;
-namespace PlexDiscordBot
+namespace MayhemDiscordBot
 {
     class Program
     {

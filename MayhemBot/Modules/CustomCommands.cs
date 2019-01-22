@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using MayhemBot.Extensions;
-using MayhemBot.Models;
+using MayhemDiscordBot.Extensions;
+using MayhemDiscordBot.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MayhemBot.Modules
+namespace MayhemDiscordBot.Modules
 {
     public class CustomCommands : ModuleBase
     {

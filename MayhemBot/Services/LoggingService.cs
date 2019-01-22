@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace PlexDiscordBot.Services
+namespace MayhemDiscordBot.Services
 {
     public class LoggingService
     {

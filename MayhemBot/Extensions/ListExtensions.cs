@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-namespace MayhemBot.Extensions
+namespace MayhemDiscordBot.Extensions
 {
     public static class ListExtensions
     {

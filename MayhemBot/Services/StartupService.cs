@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using MayhemBot.Models;
+using MayhemDiscordBot.Models;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PlexDiscordBot.Services
+namespace MayhemDiscordBot.Services
 {
     public class StartupService
     {

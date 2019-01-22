@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 
-namespace MayhemBot.Models
+namespace MayhemDiscordBot.Models
 {
     public class MayhemConfiguration
     {

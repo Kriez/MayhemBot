@@ -1,11 +1,11 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using MayhemBot.Models;
+using MayhemDiscordBot.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace PlexDiscordBot.Services
+namespace MayhemDiscordBot.Services
 {
     public class CommandHandler
     {

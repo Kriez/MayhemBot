@@ -1,15 +1,15 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using MayhemBot.Models;
+using MayhemDiscordBot.Models;
+using MayhemDiscordBot.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlexDiscordBot.Services;
 using System;
 using System.Threading.Tasks;
 
 
-namespace PlexDiscordBot
+namespace MayhemDiscordBot
 {
     public class MayhemBot
     {
