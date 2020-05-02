@@ -10,12 +10,14 @@ namespace MayhemDiscordBot.Services
 {
     public class StartupService
     {
+        private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
         private readonly MayhemConfiguration _config;
 
-        public StartupService(DiscordSocketClient discord, CommandService commands, MayhemConfiguration config)
+        public StartupService(IServiceProvider provider, DiscordSocketClient discord, CommandService commands, MayhemConfiguration config)
         {
+            _provider = provider;
             _config = config;
             _discord = discord;
             _commands = commands;
@@ -30,7 +32,7 @@ namespace MayhemDiscordBot.Services
             await _discord.LoginAsync(TokenType.Bot, _config.Token);
             await _discord.StartAsync();
 
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
+            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);     // Load commands and modules into the command service
         }
     }
 }

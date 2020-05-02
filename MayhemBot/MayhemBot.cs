@@ -19,7 +19,9 @@ namespace MayhemDiscordBot
         {
             var _builder = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile(path: "config.json");
+            .AddJsonFile(path: "config.json")
+            .AddJsonFile("config.dev.json", true);
+
             _config = new MayhemConfiguration(_builder.Build());
 
             var services = new ServiceCollection()

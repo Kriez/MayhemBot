@@ -20,39 +20,26 @@ namespace MayhemDiscordBot.Services
             _provider = provider;
             _client = _provider.GetService<DiscordSocketClient>();
             _commands = _provider.GetService<CommandService>();
-            _client.MessageReceived += HandleCommand;
+            _client.MessageReceived += OnMessageReceivedAsync;
         }
 
-        public async Task HandleCommand(SocketMessage parameterMessage)
+        private async Task OnMessageReceivedAsync(SocketMessage s)
         {
-            // Don't handle the command if it is a system message
-            var message = parameterMessage as SocketUserMessage;
-            if (message == null) return;
+            var msg = s as SocketUserMessage;     // Ensure the message is from a user/bot
+            if (msg == null) return;
+            if (msg.Author.Id == _client.CurrentUser.Id) return;     // Ignore self when checking commands
 
-            // Mark where the prefix ends and the command begins
-            int argPos = 0;
+            var context = new SocketCommandContext(_client, msg);     // Create the command context
 
-            // Create a Command Context
-            var context = new SocketCommandContext(_client, message);
-
-            char prefix = _config.Prefix;
-
-            // Determine if the message has a valid prefix, adjust argPos
-            if (!(message.HasMentionPrefix(_client.CurrentUser, ref argPos) || message.HasCharPrefix(prefix, ref argPos))) return;
-
-            // Execute the Command, store the result            
-            var result = await _commands.ExecuteAsync(context, argPos, _provider);
-
-            //await LogCommandUsage(context, result);
-            // If the command failed, notify the user
-            if (!result.IsSuccess)
+            int argPos = 0;     // Check if the message has a valid command prefix
+            if (msg.HasStringPrefix(_config.Prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
-                if (result.ErrorReason != "Unknown command.")
-                {
-                    await message.Channel.SendMessageAsync($"**Error:** {result.ErrorReason}");
-                }
-                Console.WriteLine($"{message.Content} -> {result.ErrorReason}");
+                var result = await _commands.ExecuteAsync(context, argPos, _provider);     // Execute the command
+                /*
+                if (!result.IsSuccess)     // If not successful, reply with the error.
+                    await context.Channel.SendMessageAsync(result.ToString());
+                */
             }
-        }      
+        }
     }
 }

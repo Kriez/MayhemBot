@@ -1,9 +1,18 @@
 ﻿{
-  "Token": "",
   "Prefix": "!",
+  "Token": "",
+  "Guuild": "",
   "VoiceChannels": {
     "General": "",
     "Red": "",
     "Blue": ""
+  },
+  "TextChannels": {
+    "Log": ""
+  },
+  "CounterStrike": {
+    "IP": "",
+    "Port": "",
+    "RconPassword": ""
   }
 }

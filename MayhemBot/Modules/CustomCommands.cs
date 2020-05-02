@@ -21,10 +21,7 @@ namespace MayhemDiscordBot.Modules
         public async Task RandomizeTeamsCommand([Remainder] string args = "")
         {
             var defaultVoiceChannel = await Context.Guild.GetVoiceChannelAsync(_config.VoiceChannels.General);
-
-            var users = (await defaultVoiceChannel.GetUsersAsync().Flatten()).ToList();
-
-            var userCount = users.Count();
+            var users = (await defaultVoiceChannel.GetUsersAsync().FlattenAsync()).ToList();
 
             users.Shuffle();
 
@@ -43,8 +40,8 @@ namespace MayhemDiscordBot.Modules
             var blueVoiceChannel = await Context.Guild.GetVoiceChannelAsync(_config.VoiceChannels.Red);
 
             List<IGuildUser> users = new List<IGuildUser>();
-            users.AddRange((await redVoiceChannel.GetUsersAsync().Flatten()).ToList());
-            users.AddRange((await blueVoiceChannel.GetUsersAsync().Flatten()).ToList());
+            users.AddRange((await redVoiceChannel.GetUsersAsync().FlattenAsync()).ToList());
+            users.AddRange((await blueVoiceChannel.GetUsersAsync().FlattenAsync()).ToList());
 
             foreach (var user in users)
             {
