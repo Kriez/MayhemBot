@@ -14,5 +14,10 @@
     "IP": "",
     "Port": "",
     "RconPassword": ""
+  },
+  "SSH": {
+    "IP": "",
+    "Username": "",
+    "key-auth": ""
   }
 }

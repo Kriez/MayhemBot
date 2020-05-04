@@ -12,6 +12,7 @@ namespace MayhemDiscordBot.Models
         public readonly VoiceChannelConfiguration VoiceChannels;
         public readonly TextChannelConfiguration TextChannels;
         public readonly CounterStrikeConfiguration CounterStrike;
+        public readonly SshConfiguration Ssh;
 
         public MayhemConfiguration(IConfigurationRoot config)
         {
@@ -22,6 +23,7 @@ namespace MayhemDiscordBot.Models
             VoiceChannels = new VoiceChannelConfiguration(config.GetSection("VoiceChannels"));
             TextChannels = new TextChannelConfiguration(config.GetSection("TextChannels"));
             CounterStrike = new CounterStrikeConfiguration(config.GetSection("CounterStrike"));
+            Ssh = new SshConfiguration(config.GetSection("SSH"));
         }
     }
 
@@ -46,6 +48,19 @@ namespace MayhemDiscordBot.Models
         public TextChannelConfiguration(IConfigurationSection config)
         {
             Log = ulong.Parse(config["Log"]);
+        }
+    }
+
+    public class SshConfiguration
+    {
+        public readonly string IP;
+        public readonly string Username;
+        public readonly string KeyAuth;
+        public SshConfiguration(IConfigurationSection config)
+        {
+            IP = config["IP"];
+            Username = config["Username"];
+            KeyAuth = config["key-auth"];
         }
     }
 
