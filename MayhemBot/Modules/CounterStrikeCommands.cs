@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
+using MayhemDiscord.Bot.Attributes;
 using MayhemDiscord.Bot.Interfaces;
 using MayhemDiscord.Bot.Models;
 using MayhemDiscord.QueryMasterCore;
@@ -24,6 +25,7 @@ namespace MayhemDiscordBot.Modules
         }
 
         [Command("cs")]
+        [RequireRole("CsAdmin")]
         [Summary("Perform a CS:GO command")]
         public async Task SayAsync([Remainder] [Summary("The text to echo")]
             string input)
@@ -44,6 +46,9 @@ namespace MayhemDiscordBot.Modules
                 case "rcon":
                     await RconCommand(message);
                     return;
+                case "restart":
+                    await RestartServer();
+                    return;                
                 case "ssh":
                     await SshCommand(message);
                     return;
@@ -132,6 +137,38 @@ namespace MayhemDiscordBot.Modules
                     var cmd = client.RunCommand(message);
                     await ReplyAsync(cmd.Result);
                     client.Disconnect();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        public async Task RestartServer()
+        {
+            using (var client = CmSsh.CreateClient(_config))
+            {
+                try
+                {
+                    SshCommand cmd = null;
+                    client.Connect();
+                    cmd = client.RunCommand("sudo /bin/systemctl stop csgo");
+                    if (cmd.ExitStatus != 0)
+                    {
+                        await ReplyAsync(cmd.Error);
+                        return;
+                    }
+
+                    cmd = client.RunCommand("sudo /bin/systemctl start csgo");
+                    if (cmd.ExitStatus != 0)
+                    {
+                        await ReplyAsync(cmd.Error);
+                        return;
+                    }
+
+                    client.Disconnect();
+                    await ReplyAsync("Restarting server");
                 }
                 catch (Exception ex)
                 {
