@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using MayhemDiscord.Bot.Attributes;
-using MayhemDiscord.Bot.Interfaces;
 using MayhemDiscord.Bot.Models;
 using MayhemDiscord.QueryMasterCore;
 using MayhemDiscord.QueryMasterCore.GameServer;
 using MayhemDiscordBot.Models;
 using Renci.SshNet;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MayhemDiscordBot.Modules
 {
@@ -100,16 +96,33 @@ namespace MayhemDiscordBot.Modules
                     return;
                 }
 
-                await ReplyAsync("Gamemode found!");
+                await RconCommand($"exec gamemode_{input.ToLower()}");
+                
             }
         }
 
+        public async Task GameMode2(string input)
+        {
+            using (var client = CmSsh.CreateClient(_config))
+            {
+                client.Connect();
+                var cmd = client.RunCommand($"test -e /srv/steam/startconfigurations/{input.ToUpper()} && echo file exists || echo file not found");
+                if (cmd.Result.Equals("file not found\n"))
+                {
+                    await ReplyAsync($"No gamemode found for {input}");
+                    return;
+                }
+
+                client.RunCommand($"ln -f /srv/steam/startconfigurations/{input.ToUpper()} /srv/steam/CSGO_CONFIGURATION");
+                await ReplyAsync($"Gamemode changed to {input}");
+            }
+        }
 
         public async Task GameModes()
         {
             using (var client = CmSsh.CreateClient(_config))
             {
-                string runCommand = "ls /srv/steam/hlserver/csgo/cfg";
+                string runCommand = @"ls /srv/steam/hlserver/csgo/cfg/gamemode*.cfg -1 | grep -oP 'gamemode_\K\w+'";
                 string seperator = "\n";
                 string fileStartsWith = "gamemode_";
                 string fileEndsWith = ".cfg";
@@ -119,8 +132,25 @@ namespace MayhemDiscordBot.Modules
                 var cmd = client.RunCommand(runCommand);
                 var result = cmd.Result
                     .Split(seperator)
-                    .Where(file => file.StartsWith(fileStartsWith) && file.EndsWith(fileEndsWith))
-                    .Select(file => file.Substring(fileStartsWith.Length, file.Length - fileStartsWith.Length - fileEndsWith.Length))
+                    .ToArray();
+
+                await ReplyAsync(String.Join(joinSeperator, result));
+            }
+        }
+
+        public async Task GameModes2()
+        {
+            using (var client = CmSsh.CreateClient(_config))
+            {
+                string runCommand = "ls /srv/steam/startconfigurations";
+                string seperator = "\n";
+                string joinSeperator = ", ";
+
+                client.Connect();
+                var cmd = client.RunCommand(runCommand);
+                var result = cmd.Result
+                    .Split(seperator)
+                    .Select(file => file.ToLower())
                     .ToArray();
 
                 await ReplyAsync(String.Join(joinSeperator, result));
