@@ -10,7 +10,7 @@ namespace MayhemDiscord.Bot.Models
 {
     public static class CmSsh 
     {
-        public static SshClient CreateClient(MayhemConfiguration config)
+        public static SshClient CreateSshClient(MayhemConfiguration config)
         {
             if (!File.Exists(config.Ssh.KeyAuth))
             {
@@ -23,6 +23,21 @@ namespace MayhemDiscord.Bot.Models
                 privateKeyStream);
 
             return new SshClient(connectionInfo);
+        }
+
+        public static SftpClient CreateSftpClient(MayhemConfiguration config)
+        {
+            if (!File.Exists(config.Ssh.KeyAuth))
+            {
+                throw new Exception("Key does not exists");
+            }
+            PrivateKeyFile privateKeyStream = new PrivateKeyFile(config.Ssh.KeyAuth);
+
+            var connectionInfo = new PrivateKeyConnectionInfo(config.Ssh.IP,
+                config.Ssh.Username,
+                privateKeyStream);
+
+            return new SftpClient(connectionInfo);
         }
     }
 }
