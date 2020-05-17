@@ -114,6 +114,7 @@ namespace MayhemDiscord.Bot.Modules
                 }
             }
 
+            /*
             [Command("gamemode")]
             [Summary("Set gamemode")]
             public async Task GameMode(string input)
@@ -133,7 +134,8 @@ namespace MayhemDiscord.Bot.Modules
 
                 }
             }
-
+    */
+             
             [Command("restart")]
             [Summary("Restarts the server")]
             public async Task RestartServer()
@@ -168,9 +170,9 @@ namespace MayhemDiscord.Bot.Modules
                 }
             }
 
-            [Command("test")]
-
-            public async Task Test(string input)
+            [Command("gamemode")]
+            [Summary("Set gamemode")]
+            public async Task GameMode(string input)
             {
                 MemoryStream ms = new MemoryStream();
                 using (var client = CmSsh.CreateSftpClient(_config))
